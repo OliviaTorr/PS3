@@ -61,3 +61,49 @@ The most experienced teacher has 324 months of experience, that's equal to 27 ye
 ```{r}
 
 ```
+
+
+
+
+############################################################# Olivia #########################################################
+
+2) OLS Regression
+```{r}
+
+lm <- lm(data$tscorek ~ data$sck, data = data)
+summary(lm)
+
+plm <- plm(data$tscorek ~ data$sck, model = "within", index = c("schidkn"), data = data)
+summary(plm)
+
+```
+
+3) Standard Errors
+```{r}
+
+coeftest(plm, vcov. = vcovHC, type = "HC3")
+
+```
+
+4) Testing whether randomization worked (using Ws)
+```{r}
+
+data$sck <- as.numeric(data$sck)
+
+lmgirl <- lm(data$sck ~ data$girl, data = data)
+summary(lmgirl)
+
+lmfreelunk <- lm(data$sck ~ data$freelunk, data = data)
+summary(lmfreelunk)
+
+lmtotexp <- lm(data$sck ~ data$totexpk_m, data = data)
+summary(lmtotexp)
+
+totallm <- lm(data$sck ~ data$girl + data$freelunk + data$totexpk_m, data = data)
+anova(totallm)
+
+lmfrom2a <- lm(data$tscorek ~ data$sck + data$girl + data$freelunk + data$totexpk_m, data = data)
+summary(lmfrom2a)
+
+```
+##################################################
